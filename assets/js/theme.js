@@ -8,25 +8,32 @@ function closeNav() {
   document.getElementById("myNav").style.width = "0%";
 }
 
+const span = document.getElementById("section5");
+span.style.top = document.body.offsetHeight - document.getElementById("footer").offsetHeight - window.innerHeight + "px";
+
+
 $(document).ready(function () {
   // Add smooth scrolling
-  $("a").on("click", function (event) {
+  
+  $(".fixed-anchor-link").on("click", function (event) {
     // Make sure this.hash has a value before overriding default behavior
     if (this.hash !== "") {
       // Prevent default anchor click behavior
+      
       event.preventDefault();
-
+      
       // Store hash
       var hash = this.hash;
-      var scrollAnount =  $(hash).position().top - $(window).innerHeight();
-      
+        
+      //let scrollAnount =  $(hash).position().top - $(hash).height();
       // Using jQuery's animate() method to add smooth page scroll
       // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
       $("html, body").animate( 
         {
-          scrollTop: scrollAnount,
+          scrollTop: $(hash).offset().top,
+          
         },
-        4000,
+        3000,
         function () {
           // Add hash (#) to URL when done scrolling (default click behavior)
           window.location.hash = hash;
@@ -37,15 +44,24 @@ $(document).ready(function () {
   });
 });
 
-//Show the icon on scroll
 
-$(window).scroll(function () {
-  if ($(window).scrollTop() > $("body").height() / 100) {
-    $("#upArrow").fadeTo(500, 1);
+
+//Show the icon on scroll and make it disappear when scrolled back
+
+window.addEventListener('scroll', function(e) {
+  if (this.oldScroll < this.scrollY){
+    document.getElementById('upArrow').style.display = "block"  
+    document.getElementById('upArrow').style.position = "fixed" 
   }
-});
-/*
-$("#upArrow").click(function () {
-  $("html, body").animate({ scrollTop: 0 }, "slow");
-});
-*/
+  else if(this.scrollY == 0){
+    document.getElementById('upArrow').style.display = "none"  
+    document.getElementById('upArrow').style.position = "static" 
+  }
+  this.oldScroll = this.scrollY;
+})
+
+
+ document.getElementById('upArrow').addEventListener('click', function(){
+  window.location = '#'
+})
+
